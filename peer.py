@@ -4,6 +4,7 @@ import threading
 import sys
 import time
 
+
 class Peer:
     def __init__(self, peer_id, host, port, file_dir, known_peers = None):
         self.peer_id = peer_id
@@ -17,7 +18,7 @@ class Peer:
         else:
             self.known_peers = []
         # Initialize socket, threading, etc.
-
+        self.received_files = []
     def load_files(self):
         # Scan file_dir and return a list or dict of files.
         files = {}
@@ -31,27 +32,35 @@ class Peer:
         # Send file offer messages to known peers.
         if not self.is_running:
             return
+
+        # Make a snapshot of the current keys to avoid the dict changing error
+        file_list = list(self.available_files.keys())
         for peer_addr in self.known_peers:
-            if peer_addr[1] == self.port:
+            other_peer_id, other_host, other_port = peer_addr
+            if  other_port == self.port:
                 continue
-            for filename in self.available_files:
+            for filename in file_list:
                 # Construct offer msg: [O][Peer ID (4 bytes)][File name]
                 message = b'O' + self.peer_id.to_bytes(4, 'big') +  filename.encode()
                 try:
                     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                        s.connect(peer_addr)
+                        s.connect((other_host, other_port))
                         s.sendall(message)
-                    print(f"Offered file '{filename}' to {peer_addr}")
+                    print(f"Offered file '{filename}' to {(other_host, other_port)}")
                 except Exception as e:
-                    print(f"Error advertising file '{filename}' to {peer_addr}: {e}")
+                    print(f"Error advertising file '{filename}' to {(other_host, other_port)}: {e}")
                 # Print and send to know peers
         # Readvertise every 15 secs
-        threading.Timer(15, self.advertise_files).start()
-
+        timer = threading.Timer(15, self.advertise_files)
+        timer.daemon = True
+        timer.start()
     def handle_incoming_connection(self, conn):
         # Determine message type and handle accordingly.
         try:
             message_type = conn.recv(1)
+            if not message_type:
+                conn.close()
+                return
             if message_type == b'R':
                 # Handle file request
                 filename = conn.recv(1024).decode()
@@ -67,9 +76,25 @@ class Peer:
             elif message_type == b'O':
                 # Handle offer messages from peers
                 peer_id_bytes = conn.recv(4)
-                peer_id = int.from_bytes(peer_id_bytes, byteorder='big')
+                offering_peer_id = int.from_bytes(peer_id_bytes, byteorder='big')
                 filename = conn.recv(1024).decode()
                 print(f"Received file offer from Peer {peer_id} for file: {filename}")
+                # If we don't already have the file, request it
+                if filename not in self.available_files:
+                    # Look up offering peer's address from known peers list
+                    target_peer = None
+                    for p in self.known_peers:
+                        if p[0] == offering_peer_id:
+                            target_peer = (p[1],p[2])
+                            break
+                    if target_peer:
+                        print(f"Requesting file {filename} from Peer "
+                              f"{offering_peer_id} at {target_peer}")
+                        #REQUEST SEPERATE THREAD TO NOT BLOCK HANDLER
+                        threading.Thread(target=self.request_file, args=(filename, target_peer), daemon = True).start()
+                    else:
+                        print(f"Offering peer {offering_peer_id} not found in known peers.")
+
                 conn.close()
 
             else:
@@ -145,6 +170,13 @@ class Peer:
                         break
             print("File received and saved as:", received_filename)
             conn.close()
+            # Update available_files and received_files so we don't receive duplicates
+            # Use the original file name (save_as) as the key.
+            base_name = os.path.basename(save_as)
+
+            if base_name not in self.available_files:
+                self.available_files[base_name] = received_filename
+                self.received_files.append(received_filename)
         except Exception as e:
             print("Error receiving file:", e)
             conn.close()
@@ -177,7 +209,8 @@ if __name__ == "__main__":
     file_dir = sys.argv[3]
 
     # FOR TESTING: Hardcode known peers
-    known_peers = [("localhost", 8001), ("localhost", 8002), ("localhost", 8003), ("localhost", 8004)]
+    known_peers = [(1111, "localhost", 8001), (1121, "localhost", 8002),
+                   (1131, "localhost", 8003), (1141, "localhost", 8004)]
 
     # CREATE A PEER
     peer = Peer(peer_id, host, port, file_dir, known_peers)
@@ -190,21 +223,15 @@ if __name__ == "__main__":
     # advertise files periodically (every 15 seconds)
     peer.advertise_files()
 
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("List of received files:")
+        for file in peer.received_files:
 
-    while True:
-        command = input("Enter command(e.g., request <file> <target_host> <target_port>) or 'exit': ")
-        parts = command.strip().split()
-        if len(parts) == 0:
-            continue
-        if parts[0] == "request" and len(parts) == 4:
-            file_name = parts[1]
-            target_host = parts[2]
-            target_port = int(parts[3])
-            peer.request_file(file_name, (target_host, target_port))
-        elif parts[0] == "exit":
-            print("Exiting...")
-            peer.is_running = False
-            break
-        else:
-            print("Invalid command.")
-            continue
+            print(f" - {file}")
+
+        print("Exiting...")
+        peer.is_running = False
+        sys.exit(0)
