@@ -1,0 +1,224 @@
+
+Lab 6, Information Retrieval and Text Mining
+Due date: Friday, March 7, 8:00pm
+Lab Assignment
+This is a pair programming lab.
+In this assignment you are asked to analyze a collection of text documents, the Reuter 50-50 dataset that is often
+used in text mining and text classification tasks. You will create vector space representations of the documents
+from this dataset, and will use these representations to conduct an authorship attribution study.
+The Data Collection: Reuter 50-50 Datasets
+Reuter 50-50 collection of text documents1
+is a well-known and well-studied dataset often used in machine learning
+and information retrieval coursework, as well as research.
+The dataset consists of a collection of news stories published by the Reuters news agencies. The dataset is
+broken into two parts called training set and test set. For our lab, the intents of these two parts of the dataset are
+not important and we will use both parts of the dataset together.
+The dataset was constructed to study machine learning algorithms for authorship attribution. It consists of a
+selection of 50 authors who published news stories with Reuters. For each author, exactly 100 news stories they
+authored is placed in the dataset. 50 of the stories are placed in the training set part of the dataset and the
+remaining 50 – in the test set.
+The dataset is available both from the Lab 6 course web page, as well as from the University of California at
+Irvine (UCI) Machine Learning Datasets repository as a single zip file named C50.zip. When the file is unzipped,
+it creates the following directory structure:
+dekhtyar@csclnx11:~/.../C50 $ ls -al
+total 8056
+drwx------. 4 dekhtyar domain^users 4096 Apr 7 23:50 .
+drwx------. 5 dekhtyar domain^users 4096 Apr 7 23:48 ..
+drwx------. 52 dekhtyar domain^users 4096 Apr 7 23:50 C50test
+drwx------. 52 dekhtyar domain^users 4096 Apr 7 23:50 C50train
+-rw-------. 1 dekhtyar domain^users 8194031 Apr 7 22:15 C50.zip
+dekhtyar@csclnx11:~/.../C50 $ ls C50test/
+AaronPressman JaneMacartney LydiaZajc RobinSidel
+AlanCrosby JanLopatka LynneO’Donnell RogerFillion
+AlexanderSmith JimGilchrist LynnleyBrowning SamuelPerry
+BenjaminKangLim JoeOrtiz MarcelMichelson SarahDavison
+BernardHickey JohnMastrini MarkBendeich ScottHillis
+BradDorfman JonathanBirt MartinWolk SimonCowell
+DarrenSchuettler JoWinterbottom MatthewBunce TanEeLyn
+DavidLawder KarlPenhaul MichaelConnor TheresePoletti
+EdnaFernandes KeithWeir MureDickie TimFarrand
+EricAuchard KevinDrawbaugh NickLouth ToddNissen
+FumikoFujisaki KevinMorrison PatriciaCommins WilliamKazer
+GrahamEarnshaw KirstinRidley PeterHumphrey
+HeatherScoffield KouroshKarimkhany PierreTran
+The C50train directory has exactily the same structure.
+1
+https://archive.ics.uci.edu/ml/datasets/Reuter 50 50
+1
+Each directory inside C50train and C50test directories bears the name of one of the 50 authors. Inside each
+directory is 50 .txt files containing the stories written by that author. Each story is in a separate file whose name
+follows the following pattern:
+<number>newsML.txt
+where <number> is a 5- or 6-digit number representing the unique ID of the story2
+.
+The Task
+Your goal is to conduct an authorship attribution study, i.e., to determine which methods covered in the course
+work best for identifying each author, and also which authors are easy to identify and which are hard to identify.
+This task can be accomplished in two different ways outlined below. For both of these ways, you will need to
+preprocess and vectorize the input textual data.
+Use of Supervised Learning. Authorship attribution on the Reuters 50-50 dataset is essentialy a 50-class
+classification problem. It can be addressed with any of the classification algorithms developed in this course (or
+their Scikit-learn counterparts, subject to caveats discussed below), or, alternatively it can be addressed by building
+a battery of one-vs-the-world binary classifiers - each trained to recognize one specific author and segregate thir
+articles from the articles written by other 49 authors.
+Use of Unsupervised Learning. You could also approach authorship attribution as a clustering problem -
+take the articles, partition them into 50 clusters, and investigate cluster purity of each cluster to determine how
+easy/hard it is to determine specific authors.
+In your lab, you will use both methods, and compare them to each other.
+Preliminary Steps
+The first task for you assignment is to create vectorized tf-idf representations of each document and to store these
+representations.
+Write a program textVectorizer.py that takes as input the location of the root of the Reuters 50-50 dataset
+directory, and produces, as the result, a file containing the vectorized tf-idf representations for each of the 5000
+documents in the dataset. The name of the output file can be an input parameter to your program (for the sake
+of flexibility). Additionally, your program shall produce (to make your life easier during the evaluation stages) a
+ground truth file that for each document (identified by its file name) stores the name of the author (name of the
+directory the file is in). The ground truth file can have any format you want, but a simple CSV file looking as
+follows will suffice:
+421829newsML.txt,AaronPressman
+424074newsML.txt,AaronPressman
+...
+236352newsML.txt,AlanCrosby
+293241newsML.txt,AlanCrosby
+...
+Note: You must write the entire vectorizer from scratch without the use of text vectorization
+tools/APIs/functionality available in the specialized packages in the programming language of your
+choice. You are explicitly prohibited from using any scikit learn or nltk Python package functionality for
+this lab with the exception of nltk’s stemmers (as well as their counterparts in other languages). The point
+of this assignment is to learn how to vectorize text data.
+2The Reuter 50-50 dataset was built out of a much larger data set of Reuters stories, so there is no rhyme or reason to the numbers
+contained in the filenames. All you need to know is that they are all unique.
+2
+You can use standard parsing techniques available to you in your programming languages such as split()
+and strip() methods. You can take advantage of the data structures provided to you by the NumPy package (or
+similar packages in other programming languages).
+When implementing vectorized representations of the documents, please observe that the overall vocabulary
+of the Reuter 50-50 dataset is significantly larger than the number of unique words used in any specific single
+document, and therefore, the tf-idf vectors of individual documents will be rather sparse.
+To address this, you may choose to trim the vocabulary to only contain terms that show up in a sufficiently
+large number of documents. (Note: for the purpose of authorship attribution keeping very rare terms in the
+vocabulary might not be absolutely necessary, although it might improve accuracy in some cases at the cost
+of runtime performance). The specific formation of your final vocabulary, and the data structure support for
+vectorization is left up to each team.
+Tuning Parameters for Information Retrieval/Vectorization Part of the Assignment
+When experimenting with both analytical methods you may wind up running your analyses multiple time with a
+different set of parameters. For both methods, you can construct different datasets based on what pre-processing
+techniques were used to create them. Generally speaking, for the preprocessing, you have four key choices to
+consider:
+• No stopword removal, no stemming.
+• Stop word removal, but no stemming.
+• Stemming, but no stopword removal.
+• both Stemming and stopword removal.
+Within this set of possibilities, different lists of stop words can be used to create more possible inputs to both
+the classification and clusering authorship attribution methods.
+Authorship Attribution Through Classification
+You will be using the K-Nearest Neighbors classifier for this task. You can use either your own implementation
+from the previous labs, or the Scikit-learn implementation, subject to your ability to properly integrate it with
+the appropriate similarity metric.
+K-Nearest Neighbors requires a distance or similarity metric to properly operate. You will use the cosine
+similarity and okapi metrics in this exercise. Note, that for the cosine metric, you can use scikit-learn’s cosine
+distance metric as part of your KNN procedure. However, Scikit-learn does not have an implementation of okapi,
+so you need to:
+• Implement okapi similarity metric as a from-scratch computation based on term frequencies and inverse
+document frequencies of the terms in your vocabulary (you can prepare the appropriate data during your
+vectorization process to match what the okapi computation needs).
+• Implement a function that converts the okapi similarity metric into a distance metric (for example by doing
+1 − okapi substitution). The specific conversion is left up to you.
+• Pass your okapi distance metric function to an instance of KNeighborsClassifier as the distance function.
+Write a program knnAuthorship.py which takes as input the following parameters:
+• the file of vectorized document representations,
+• a flag indicating the similarity metric to be used in the computation,
+• a value of k (number of nearest neighbors to check)
+3
+The output of each program shall be an authorship label predicted for each of the documents in the Reuters
+50-50 dataset.
+Your KNN implementation shall use an all-but-one validation (take a document, find k nearest neighbors
+among the remaining 4999 documents in the dataset). The output can be printed out directly to the screen, or
+placed in an output file.
+To evaluate the accuracy of the predictions, write a classfierEvaluation.py program that takes as input
+the file generated by the knnAuthorship program, as well as the ground truth file (remember you had to generate
+one!)3
+, and produces as the result the following output:
+• For each author in the dataset, output the total number of hits (correctly predicted documents), strikes
+(false positives predicted) and misses (document written by the author, which were not attributed to the
+author).
+• For each author in the dataset report the precision, the recall, and the f1-measure of the KNN procedure.
+• Overall, report the total number of documents with correctly predicted authors, the total number of documents with incorrectly predicted authors, and the overall accuracy of the prediction.
+• The full 50x50 confusion matrix in a CSV form (with the top row, and first column containing the author
+names/labels). This can be dumped directly into an output file, rather than printed to screen.
+You can reuse and repurpose your code from Lab 3 for this task. Your evaluator may be a bit more complex,
+but it can be built conveniently as a branch of your Lab 3 evaluator code.
+Your analytical goal is to determine which authors are easier to predict authorship for, and which authors are
+hard (and who they tend to get confused with). You can do the final analytical step by hand - simply looking
+at the results of your evaluation program, or, alternatively, you can add code to your evaluation program that
+reports this information out automatically.
+Finally, your similarity score (cosine or okapi) is another parameter that can be used to build different authorship attribution models.
+Tuning Parameters for Classification Part of The Assignment
+For the KNN-based authorship attribution, you have an additional hyperparameter to tune: K, the number of
+neighbors to use. You have some natural boundaries on K as part of your procedure: clearly, K ≤ 99, and quite
+possibly needs to be made significantly smaller.
+You should tune K on your own, and include the results for the best value of K you found in your report.
+However, you do not need to submit any hyperparameter tuning code above and beyond the knnAuthorship.py
+program.
+Authorship Attribution Through Clustering
+Develop a K-Means-clustering-based approach to authorship attribution.
+Implement (and submit) a KMeansAuthorship.py program that takes as input the following:
+• the file of vectorized document representations,
+• a value of k: the number of clusters
+• any additional hyperparameters for the KMeans clustering algorithm that you want to use.
+The program shall perform K-Means clustering of the document collection and produce, as output a cluster
+label for each document in the Reuters 50-50 collection.
+For the clustering part of the program you can reuse your Lab 4 implementation, or use the K-Means Clustering
+implementation from Scikit-Learn.
+3
+It may be helpful if both files are stored in exactly the same format.
+4
+To evaluate the results of your clustering analysis, write a program clusteringEvaluation.py which takes as
+input a filename storing the direct output of KMeansAuthorship.py, and a filename of the ground truth file, and
+reports back the following information:
+• For each cluster:
+– The plurality label of the cluster (i.e. the name of the most frequent author of the articles in the
+cluster).
+– The size of the cluster.
+– The cluster purity score (i.e., the percent of cluster members with the plurality label)
+– Distribution of author labels in the cluster.
+• The average cluster purity of all the clusters.
+• The Rand Score of the clustering.
+• For each author:
+– Number of clusters in which their articles were found.
+– Number of clusters in which their articles were the plurality.
+– Percent of articles clustered into clusters where the author was the plurality label (recall)
+– Percent of articles in the clusters where the author was the plurality label ascribed to the author
+(precision).
+Reporting your findings
+Prepare a report that describes the following:
+• The exepriment you ran for each of the two analytical methods for determining authorship: what datasets
+were explored, which values of hyperparameters were investigated.
+• The results of your best runs for each of the two analytical methods. You should present in tabular (or easy
+to read text) form the accuracy measures for determining each author, as well as the overall accuracy. Any
+raw results shall be included in the appendix to your report.
+• A reflection on each of the methods w.r.t. the method’s overall ability to properly attribute authorship of
+the articles, as well as any specific information that stands out: which authors are easy to predict? which
+are hard? which tend to be confused with each other?
+• A comparison of two methods to each other and a final determination of which method proved to be more
+accurate.
+Submission
+For this lab we will use CSL handin tool.
+You shall submit the following.
+• All the code you wrote to fulfill the requirements of this lab in a single zip or tarred gz file. Resubmit any
+code from prior labs that you have used.
+• A README file with instructions on how to run your code to perform different tasks of the assignment. You
+can also use it to describe what prior code was used (this helps in grading).
+• Output files for best respective runs generated by your evaluation programs for both analytical methods
+for authorship detection (specify filenames in README file). (Note, some of this information may also be
+included in your report appendix, but having an appendix does not absolve you from submitting the raw
+output files).
+5
+• Your report in PDF format.
+Place all code files and directories except for the report file, the README file and the output files, into
+a single archive named lab06.tar.gz or lab06.zip and submit it. Submit the PDF version of the report, the
+README file and the output files separately, outside of the archive.
+Use handin to submit as follows:
+$ handin dekhtyar 466-lab06 <FILES>
+Good Luck!
+6

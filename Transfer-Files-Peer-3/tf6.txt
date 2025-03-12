@@ -1,0 +1,480 @@
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+
+Topic: Machine Learning–Driven Scheduling and Resource Management in HPC Clusters
+By: Nathan Lim, Sohini Pillay & Braeden Alonge
+High-Performance Computing (HPC) environments have become more and more prevalent in supporting
+ cutting-edge scientific research, large-scale simulations, and data analytics tasks. As HPC clusters
+  continue to grow in size and complexity, managing their resources effectively while meeting a multitude of application requirements has become increasingly challenging. Traditional scheduling techniques often struggle to address the breadth of demands of these environments. As this challenge has grown, so has the interest in applying Machine Learning (ML) techniques, particularly Reinforcement Learning (RL) and Deep Learning (DL), to enhance the scheduling and resource management for HPC systems.
+Inthis survey paper, we propose to explore the integration of ML-driven approaches in HPC scheduling and
+resource allocation. Over the past five years, advancements in ML-based algorithms have shown potential
+ in improving key performance metrics, such as job throughput, resource utilization, and scheduling
+ efficiency. However, the application of ML to HPC scheduling poses challenges such as the need for
+ representative data, computational overhead, and the complexity of integrating these solutions into
+ existing workflows. By reviewing current research in the field, we aim to analyze and compare the most r
+ elevant ML-driven scheduling frameworks, such as reinforcement learning-based co-schedulers, hierarchic
+ al deep learning schedulers, and hybrid approaches leveraging dynamic job prediction. Through our ana
+ lysis, we will identify commonalities, hindrances, and opportunities for further exploration in this
+  field.
+HPC clusters are large-scale physical computing environments primarily used in various science and data
+
+analytic fields where massive amounts of processing power are needed to complete computationally
+intensive tasks. These tasks might include running advanced digital simulation models or training complex m
+achine learning models like neural networks. In all of their use cases, the processing power necessary
+ for these tasks requires a typical HPC cluster to be built with up to thousands of interconnected
+ nodes—each individually equipped with their own high-power processors and memory. The overarching
+ goal of such a system is to distribute computation across multiple nodes to expedite processing speeds.
+Because HPC clusters are so complex and expensive to build, they tend to be built to serve multiple users
+ and applications simultaneously. This multitasking presents an issue: how does the cluster decide when,
+ where, and how to run each job? In the past, basic scheduling algorithms like backfilling and
+ priority-based queuing were standard practice and are still easy to implement, but as modern systems
+  begin to branch out in terms of hardware, types of processes, and demand, these traditional algorithms
+   struggle to adapt to ever changing circumstances and leave HPC clusters vulnerable to inefficient
+    resource management.
+The use of machine learning (ML) for HPC cluster scheduling presents itself as a promising alternative
+ to classical algorithms because of its ability to control resource allocation via real-time complex
+ analysis of user behavior, changing application requirements, and various system factors. Although
+  ML techniques have seen “successful deployments for resource allocation, failure prediction, and
+  data center cooling'' in some parts of the data center ecosystem \cite{kuchnik2019}, the application
+  of ML for HPC cluster scheduling is not yet the dominant approach in production environments.
+Kuchnik et al. \cite{kuchnik2019} provides an analysis of why ML methods in HPC scheduling have
+traditionally struggled to be successful.
+
+

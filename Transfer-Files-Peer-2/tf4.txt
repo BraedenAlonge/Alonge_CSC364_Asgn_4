@@ -1,0 +1,1036 @@
+Assignment 4: P2P NFS
+Due Thursday by 7pm Points 100 Submitting a text entry box or a website url
+Programming Assignment: Implementing a Simple Peer-to-Peer (P2P) Networked File System
+Objective:
+In this assignment, you will design and implement a simple peer-to-peer (P2P) file system. The goal is to understand the basics of distributed systems and networked file sharing by building a system where peers can share, request, and transfer files directly with each other. The system will allow nodes (peers) to act as both servers and clients, offering and requesting files over a network.
+
+Learning Outcomes:
+By completing this assignment, you will:
+
+Gain hands-on experience with peer-to-peer file sharing.
+Understand the file transfer protocols used in distributed systems.
+Learn how to handle network communication using sockets.
+Understand file lookup and error recovery in a P2P file system.
+Assignment Overview:
+The assignment requires students to build a P2P system with the following features:
+
+File Sharing: Peers should be able to offer files to other peers and request files from other peers in the network.
+File Lookup: A mechanism for peers to find files offered by other peers.
+File Transfer: Once a file is located, peers should be able to transfer files over the network.
+Distributed Storage: Peers will maintain a local list of files they share, and this list will be used for file lookup by other peers.
+Basic Network Communication: Peers communicate via sockets (TCP or UDP), and each peer can request files from another peer using a simple protocol.
+Features to Implement:
+Peer Registration:
+Each peer in the system should register itself by advertising the list of files it is offering to share.
+File Request and Transfer:
+Peers should be able to request a file from another peer. The requested peer will send the file over the network.
+Simple P2P Protocol:
+The system will use a simple message protocol to facilitate communication between peers:
+File Offer: Peers will periodically advertise their list of available files.
+File Request: When a peer wants a file, it will request it from another peer, which will then send the file.
+System Components:
+1. Peer:
+
+Each peer in the system will be able to:
+Register its available files (offer files to other peers).
+Query other peers for available files.
+Transfer files to peers who have requested them.
+2. File Lookup:
+
+Each peer maintains a list of files it can share.
+Each file in the system will have a unique file name.
+Peers will communicate to search for files offered by other peers.
+3. File Transfer:
+
+When a peer requests a file, the server peer sends the file to the client peer over the network.
+Files will be transferred in chunks to handle large files and allow for error recovery.
+
+
+Packet Format:
+The communication between peers will be based on a simple packet format for file transfer and query.
+
+File Offer Message:
+Message Type (1 byte): O (Offer)
+Peer ID (4 bytes): Unique identifier of the peer offering the file.
+File Name (variable length): Name of the file being offered.
+File Request Message:
+Message Type (1 byte): R (Request)
+File Name (variable length): The name of the file the client is requesting.
+File Transfer Message:
+Message Type (1 byte): T (Transfer)
+File Data (variable length): Chunk of the file being transferred.
+Acknowledgment Message:
+Message Type (1 byte): A (Ack)
+Peer ID (4 bytes): The peer who has successfully received the file chunk.
+
+
+Protocol Outline:
+Peer Registration:
+A peer sends a File Offer Message to the network to advertise the files it is sharing.
+The Peer ID should be a unique identifier for each peer (e.g., a randomly generated UUID or an IP address and port combination).
+File Lookup:
+A peer sends a File Request Message to request a file from another peer.
+If the requested file is available, the server peer will respond with the file in chunks.
+File Transfer:
+The file is transferred in chunks (e.g., 1024 bytes per chunk).
+The client should acknowledge each chunk using an Acknowledgment Message.
+Error Handling:
+If a chunk is not acknowledged within a timeout period, the peer should retransmit the chunk.
+
+
+Design Specifications:
+1. Peer Operations:
+
+Start a Peer: When the peer starts, it should:
+Register itself on the network by advertising its available files.
+Periodically update its file list for other peers to query.
+Offer a File: A peer should periodically broadcast its available files to other peers.
+Request a File: When a peer wants a file, it should send a request to other peers for the specific file.
+Transfer a File: Once a peer has been requested for a file, it should send the file in chunks.
+Receive a File: A peer requesting a file will receive it in chunks and save it locally.
+Error Recovery: Implement basic error handling such as retransmissions in case of lost file chunks.
+2. Network Communication:
+
+Sockets: Peers will use TCP sockets to establish connections and transfer data reliably.
+Broadcasting and Searching: Peers can periodically broadcast their available files to all known peers or use a central registry (like a basic tracker) to query other peers.
+3. File Management:
+
+Peers should maintain a local directory (file system) of files they offer.
+Each peer should check if a file exists before responding to a request.
+4. Peer-to-Peer Network Discovery:
+
+Peer discovery: A peer sends a File Offer Message to the network.
+As an add-on, you will implement a central registry that helps peers find other peers in the network.
+
+
+Implementation Steps:
+Step 1: Peer Setup and File Management
+
+Create the peer.py file that represents a peer in the network.
+Implement methods for:
+Registering the peer and its files.
+Sending and receiving file offer messages.
+Step 2: File Request and Transfer
+
+Implement the logic for handling file requests:
+Send file chunks upon request.
+Receive file chunks and save the requested file.
+Step 3: File Lookup and Error Handling
+
+Implement a lookup function to search for available files on other peers.
+Implement error handling and retransmissions for lost or missing chunks.
+Step 4: Testing and Debugging
+
+Test the system by running multiple peers in separate terminals and transferring files between them.
+Verify that file transfers complete successfully and that file lookup is functioning as expected.
+
+
+Add-Ons (once main functionality is complete):
+Tracker Server: Implement a central tracker server to help peers locate other peers.
+File Integrity Check: Implement a checksum mechanism to verify the integrity of files during transfer.
+
+
+Grading Criteria:
+Functionality (45 Points):
+Correct implementation of file sharing, file lookup, and file transfer.
+Proper peer registration and periodic updates to the file list.
+Add-Ons (5 Points):
+Tracker server (4 points).
+File integrity check (1 point).
+Error Handling (20 Points):
+Proper handling of missing packets and retransmissions.
+Reliable file transfer with chunk acknowledgments.
+Network Communication (20 Points):
+Correct implementation of socket communication between peers.
+Efficient file discovery and querying mechanism.
+Documentation (10 Points):
+Clear and concise documentation of the system’s design and functionality.
+Description of the file transfer protocol and how peers interact.
+Assignment 4: P2P NFS
+Due Thursday by 7pm Points 100 Submitting a text entry box or a website url
+Programming Assignment: Implementing a Simple Peer-to-Peer (P2P) Networked File System
+Objective:
+In this assignment, you will design and implement a simple peer-to-peer (P2P) file system. The goal is to understand the basics of distributed systems and networked file sharing by building a system where peers can share, request, and transfer files directly with each other. The system will allow nodes (peers) to act as both servers and clients, offering and requesting files over a network.
+
+Learning Outcomes:
+By completing this assignment, you will:
+
+Gain hands-on experience with peer-to-peer file sharing.
+Understand the file transfer protocols used in distributed systems.
+Learn how to handle network communication using sockets.
+Understand file lookup and error recovery in a P2P file system.
+Assignment Overview:
+The assignment requires students to build a P2P system with the following features:
+
+File Sharing: Peers should be able to offer files to other peers and request files from other peers in the network.
+File Lookup: A mechanism for peers to find files offered by other peers.
+File Transfer: Once a file is located, peers should be able to transfer files over the network.
+Distributed Storage: Peers will maintain a local list of files they share, and this list will be used for file lookup by other peers.
+Basic Network Communication: Peers communicate via sockets (TCP or UDP), and each peer can request files from another peer using a simple protocol.
+Features to Implement:
+Peer Registration:
+Each peer in the system should register itself by advertising the list of files it is offering to share.
+File Request and Transfer:
+Peers should be able to request a file from another peer. The requested peer will send the file over the network.
+Simple P2P Protocol:
+The system will use a simple message protocol to facilitate communication between peers:
+File Offer: Peers will periodically advertise their list of available files.
+File Request: When a peer wants a file, it will request it from another peer, which will then send the file.
+System Components:
+1. Peer:
+
+Each peer in the system will be able to:
+Register its available files (offer files to other peers).
+Query other peers for available files.
+Transfer files to peers who have requested them.
+2. File Lookup:
+
+Each peer maintains a list of files it can share.
+Each file in the system will have a unique file name.
+Peers will communicate to search for files offered by other peers.
+3. File Transfer:
+
+When a peer requests a file, the server peer sends the file to the client peer over the network.
+Files will be transferred in chunks to handle large files and allow for error recovery.
+
+
+Packet Format:
+The communication between peers will be based on a simple packet format for file transfer and query.
+
+File Offer Message:
+Message Type (1 byte): O (Offer)
+Peer ID (4 bytes): Unique identifier of the peer offering the file.
+File Name (variable length): Name of the file being offered.
+File Request Message:
+Message Type (1 byte): R (Request)
+File Name (variable length): The name of the file the client is requesting.
+File Transfer Message:
+Message Type (1 byte): T (Transfer)
+File Data (variable length): Chunk of the file being transferred.
+Acknowledgment Message:
+Message Type (1 byte): A (Ack)
+Peer ID (4 bytes): The peer who has successfully received the file chunk.
+
+
+Protocol Outline:
+Peer Registration:
+A peer sends a File Offer Message to the network to advertise the files it is sharing.
+The Peer ID should be a unique identifier for each peer (e.g., a randomly generated UUID or an IP address and port combination).
+File Lookup:
+A peer sends a File Request Message to request a file from another peer.
+If the requested file is available, the server peer will respond with the file in chunks.
+File Transfer:
+The file is transferred in chunks (e.g., 1024 bytes per chunk).
+The client should acknowledge each chunk using an Acknowledgment Message.
+Error Handling:
+If a chunk is not acknowledged within a timeout period, the peer should retransmit the chunk.
+
+
+Design Specifications:
+1. Peer Operations:
+
+Start a Peer: When the peer starts, it should:
+Register itself on the network by advertising its available files.
+Periodically update its file list for other peers to query.
+Offer a File: A peer should periodically broadcast its available files to other peers.
+Request a File: When a peer wants a file, it should send a request to other peers for the specific file.
+Transfer a File: Once a peer has been requested for a file, it should send the file in chunks.
+Receive a File: A peer requesting a file will receive it in chunks and save it locally.
+Error Recovery: Implement basic error handling such as retransmissions in case of lost file chunks.
+2. Network Communication:
+
+Sockets: Peers will use TCP sockets to establish connections and transfer data reliably.
+Broadcasting and Searching: Peers can periodically broadcast their available files to all known peers or use a central registry (like a basic tracker) to query other peers.
+3. File Management:
+
+Peers should maintain a local directory (file system) of files they offer.
+Each peer should check if a file exists before responding to a request.
+4. Peer-to-Peer Network Discovery:
+
+Peer discovery: A peer sends a File Offer Message to the network.
+As an add-on, you will implement a central registry that helps peers find other peers in the network.
+
+
+Implementation Steps:
+Step 1: Peer Setup and File Management
+
+Create the peer.py file that represents a peer in the network.
+Implement methods for:
+Registering the peer and its files.
+Sending and receiving file offer messages.
+Step 2: File Request and Transfer
+
+Implement the logic for handling file requests:
+Send file chunks upon request.
+Receive file chunks and save the requested file.
+Step 3: File Lookup and Error Handling
+
+Implement a lookup function to search for available files on other peers.
+Implement error handling and retransmissions for lost or missing chunks.
+Step 4: Testing and Debugging
+
+Test the system by running multiple peers in separate terminals and transferring files between them.
+Verify that file transfers complete successfully and that file lookup is functioning as expected.
+
+
+Add-Ons (once main functionality is complete):
+Tracker Server: Implement a central tracker server to help peers locate other peers.
+File Integrity Check: Implement a checksum mechanism to verify the integrity of files during transfer.
+
+
+Grading Criteria:
+Functionality (45 Points):
+Correct implementation of file sharing, file lookup, and file transfer.
+Proper peer registration and periodic updates to the file list.
+Add-Ons (5 Points):
+Tracker server (4 points).
+File integrity check (1 point).
+Error Handling (20 Points):
+Proper handling of missing packets and retransmissions.
+Reliable file transfer with chunk acknowledgments.
+Network Communication (20 Points):
+Correct implementation of socket communication between peers.
+Efficient file discovery and querying mechanism.
+Documentation (10 Points):
+Clear and concise documentation of the system’s design and functionality.
+Description of the file transfer protocol and how peers interact.
+Assignment 4: P2P NFS
+Due Thursday by 7pm Points 100 Submitting a text entry box or a website url
+Programming Assignment: Implementing a Simple Peer-to-Peer (P2P) Networked File System
+Objective:
+In this assignment, you will design and implement a simple peer-to-peer (P2P) file system. The goal is to understand the basics of distributed systems and networked file sharing by building a system where peers can share, request, and transfer files directly with each other. The system will allow nodes (peers) to act as both servers and clients, offering and requesting files over a network.
+
+Learning Outcomes:
+By completing this assignment, you will:
+
+Gain hands-on experience with peer-to-peer file sharing.
+Understand the file transfer protocols used in distributed systems.
+Learn how to handle network communication using sockets.
+Understand file lookup and error recovery in a P2P file system.
+Assignment Overview:
+The assignment requires students to build a P2P system with the following features:
+
+File Sharing: Peers should be able to offer files to other peers and request files from other peers in the network.
+File Lookup: A mechanism for peers to find files offered by other peers.
+File Transfer: Once a file is located, peers should be able to transfer files over the network.
+Distributed Storage: Peers will maintain a local list of files they share, and this list will be used for file lookup by other peers.
+Basic Network Communication: Peers communicate via sockets (TCP or UDP), and each peer can request files from another peer using a simple protocol.
+Features to Implement:
+Peer Registration:
+Each peer in the system should register itself by advertising the list of files it is offering to share.
+File Request and Transfer:
+Peers should be able to request a file from another peer. The requested peer will send the file over the network.
+Simple P2P Protocol:
+The system will use a simple message protocol to facilitate communication between peers:
+File Offer: Peers will periodically advertise their list of available files.
+File Request: When a peer wants a file, it will request it from another peer, which will then send the file.
+System Components:
+1. Peer:
+
+Each peer in the system will be able to:
+Register its available files (offer files to other peers).
+Query other peers for available files.
+Transfer files to peers who have requested them.
+2. File Lookup:
+
+Each peer maintains a list of files it can share.
+Each file in the system will have a unique file name.
+Peers will communicate to search for files offered by other peers.
+3. File Transfer:
+
+When a peer requests a file, the server peer sends the file to the client peer over the network.
+Files will be transferred in chunks to handle large files and allow for error recovery.
+
+
+Packet Format:
+The communication between peers will be based on a simple packet format for file transfer and query.
+
+File Offer Message:
+Message Type (1 byte): O (Offer)
+Peer ID (4 bytes): Unique identifier of the peer offering the file.
+File Name (variable length): Name of the file being offered.
+File Request Message:
+Message Type (1 byte): R (Request)
+File Name (variable length): The name of the file the client is requesting.
+File Transfer Message:
+Message Type (1 byte): T (Transfer)
+File Data (variable length): Chunk of the file being transferred.
+Acknowledgment Message:
+Message Type (1 byte): A (Ack)
+Peer ID (4 bytes): The peer who has successfully received the file chunk.
+
+
+Protocol Outline:
+Peer Registration:
+A peer sends a File Offer Message to the network to advertise the files it is sharing.
+The Peer ID should be a unique identifier for each peer (e.g., a randomly generated UUID or an IP address and port combination).
+File Lookup:
+A peer sends a File Request Message to request a file from another peer.
+If the requested file is available, the server peer will respond with the file in chunks.
+File Transfer:
+The file is transferred in chunks (e.g., 1024 bytes per chunk).
+The client should acknowledge each chunk using an Acknowledgment Message.
+Error Handling:
+If a chunk is not acknowledged within a timeout period, the peer should retransmit the chunk.
+
+
+Design Specifications:
+1. Peer Operations:
+
+Start a Peer: When the peer starts, it should:
+Register itself on the network by advertising its available files.
+Periodically update its file list for other peers to query.
+Offer a File: A peer should periodically broadcast its available files to other peers.
+Request a File: When a peer wants a file, it should send a request to other peers for the specific file.
+Transfer a File: Once a peer has been requested for a file, it should send the file in chunks.
+Receive a File: A peer requesting a file will receive it in chunks and save it locally.
+Error Recovery: Implement basic error handling such as retransmissions in case of lost file chunks.
+2. Network Communication:
+
+Sockets: Peers will use TCP sockets to establish connections and transfer data reliably.
+Broadcasting and Searching: Peers can periodically broadcast their available files to all known peers or use a central registry (like a basic tracker) to query other peers.
+3. File Management:
+
+Peers should maintain a local directory (file system) of files they offer.
+Each peer should check if a file exists before responding to a request.
+4. Peer-to-Peer Network Discovery:
+
+Peer discovery: A peer sends a File Offer Message to the network.
+As an add-on, you will implement a central registry that helps peers find other peers in the network.
+
+
+Implementation Steps:
+Step 1: Peer Setup and File Management
+
+Create the peer.py file that represents a peer in the network.
+Implement methods for:
+Registering the peer and its files.
+Sending and receiving file offer messages.
+Step 2: File Request and Transfer
+
+Implement the logic for handling file requests:
+Send file chunks upon request.
+Receive file chunks and save the requested file.
+Step 3: File Lookup and Error Handling
+
+Implement a lookup function to search for available files on other peers.
+Implement error handling and retransmissions for lost or missing chunks.
+Step 4: Testing and Debugging
+
+Test the system by running multiple peers in separate terminals and transferring files between them.
+Verify that file transfers complete successfully and that file lookup is functioning as expected.
+
+
+Add-Ons (once main functionality is complete):
+Tracker Server: Implement a central tracker server to help peers locate other peers.
+File Integrity Check: Implement a checksum mechanism to verify the integrity of files during transfer.
+
+
+Grading Criteria:
+Functionality (45 Points):
+Correct implementation of file sharing, file lookup, and file transfer.
+Proper peer registration and periodic updates to the file list.
+Add-Ons (5 Points):
+Tracker server (4 points).
+File integrity check (1 point).
+Error Handling (20 Points):
+Proper handling of missing packets and retransmissions.
+Reliable file transfer with chunk acknowledgments.
+Network Communication (20 Points):
+Correct implementation of socket communication between peers.
+Efficient file discovery and querying mechanism.
+Documentation (10 Points):
+Clear and concise documentation of the system’s design and functionality.
+Description of the file transfer protocol and how peers interact.
+Assignment 4: P2P NFS
+Due Thursday by 7pm Points 100 Submitting a text entry box or a website url
+Programming Assignment: Implementing a Simple Peer-to-Peer (P2P) Networked File System
+Objective:
+In this assignment, you will design and implement a simple peer-to-peer (P2P) file system. The goal is to understand the basics of distributed systems and networked file sharing by building a system where peers can share, request, and transfer files directly with each other. The system will allow nodes (peers) to act as both servers and clients, offering and requesting files over a network.
+
+Learning Outcomes:
+By completing this assignment, you will:
+
+Gain hands-on experience with peer-to-peer file sharing.
+Understand the file transfer protocols used in distributed systems.
+Learn how to handle network communication using sockets.
+Understand file lookup and error recovery in a P2P file system.
+Assignment Overview:
+The assignment requires students to build a P2P system with the following features:
+
+File Sharing: Peers should be able to offer files to other peers and request files from other peers in the network.
+File Lookup: A mechanism for peers to find files offered by other peers.
+File Transfer: Once a file is located, peers should be able to transfer files over the network.
+Distributed Storage: Peers will maintain a local list of files they share, and this list will be used for file lookup by other peers.
+Basic Network Communication: Peers communicate via sockets (TCP or UDP), and each peer can request files from another peer using a simple protocol.
+Features to Implement:
+Peer Registration:
+Each peer in the system should register itself by advertising the list of files it is offering to share.
+File Request and Transfer:
+Peers should be able to request a file from another peer. The requested peer will send the file over the network.
+Simple P2P Protocol:
+The system will use a simple message protocol to facilitate communication between peers:
+File Offer: Peers will periodically advertise their list of available files.
+File Request: When a peer wants a file, it will request it from another peer, which will then send the file.
+System Components:
+1. Peer:
+
+Each peer in the system will be able to:
+Register its available files (offer files to other peers).
+Query other peers for available files.
+Transfer files to peers who have requested them.
+2. File Lookup:
+
+Each peer maintains a list of files it can share.
+Each file in the system will have a unique file name.
+Peers will communicate to search for files offered by other peers.
+3. File Transfer:
+
+When a peer requests a file, the server peer sends the file to the client peer over the network.
+Files will be transferred in chunks to handle large files and allow for error recovery.
+
+
+Packet Format:
+The communication between peers will be based on a simple packet format for file transfer and query.
+
+File Offer Message:
+Message Type (1 byte): O (Offer)
+Peer ID (4 bytes): Unique identifier of the peer offering the file.
+File Name (variable length): Name of the file being offered.
+File Request Message:
+Message Type (1 byte): R (Request)
+File Name (variable length): The name of the file the client is requesting.
+File Transfer Message:
+Message Type (1 byte): T (Transfer)
+File Data (variable length): Chunk of the file being transferred.
+Acknowledgment Message:
+Message Type (1 byte): A (Ack)
+Peer ID (4 bytes): The peer who has successfully received the file chunk.
+
+
+Protocol Outline:
+Peer Registration:
+A peer sends a File Offer Message to the network to advertise the files it is sharing.
+The Peer ID should be a unique identifier for each peer (e.g., a randomly generated UUID or an IP address and port combination).
+File Lookup:
+A peer sends a File Request Message to request a file from another peer.
+If the requested file is available, the server peer will respond with the file in chunks.
+File Transfer:
+The file is transferred in chunks (e.g., 1024 bytes per chunk).
+The client should acknowledge each chunk using an Acknowledgment Message.
+Error Handling:
+If a chunk is not acknowledged within a timeout period, the peer should retransmit the chunk.
+
+
+Design Specifications:
+1. Peer Operations:
+
+Start a Peer: When the peer starts, it should:
+Register itself on the network by advertising its available files.
+Periodically update its file list for other peers to query.
+Offer a File: A peer should periodically broadcast its available files to other peers.
+Request a File: When a peer wants a file, it should send a request to other peers for the specific file.
+Transfer a File: Once a peer has been requested for a file, it should send the file in chunks.
+Receive a File: A peer requesting a file will receive it in chunks and save it locally.
+Error Recovery: Implement basic error handling such as retransmissions in case of lost file chunks.
+2. Network Communication:
+
+Sockets: Peers will use TCP sockets to establish connections and transfer data reliably.
+Broadcasting and Searching: Peers can periodically broadcast their available files to all known peers or use a central registry (like a basic tracker) to query other peers.
+3. File Management:
+
+Peers should maintain a local directory (file system) of files they offer.
+Each peer should check if a file exists before responding to a request.
+4. Peer-to-Peer Network Discovery:
+
+Peer discovery: A peer sends a File Offer Message to the network.
+As an add-on, you will implement a central registry that helps peers find other peers in the network.
+
+
+Implementation Steps:
+Step 1: Peer Setup and File Management
+
+Create the peer.py file that represents a peer in the network.
+Implement methods for:
+Registering the peer and its files.
+Sending and receiving file offer messages.
+Step 2: File Request and Transfer
+
+Implement the logic for handling file requests:
+Send file chunks upon request.
+Receive file chunks and save the requested file.
+Step 3: File Lookup and Error Handling
+
+Implement a lookup function to search for available files on other peers.
+Implement error handling and retransmissions for lost or missing chunks.
+Step 4: Testing and Debugging
+
+Test the system by running multiple peers in separate terminals and transferring files between them.
+Verify that file transfers complete successfully and that file lookup is functioning as expected.
+
+
+Add-Ons (once main functionality is complete):
+Tracker Server: Implement a central tracker server to help peers locate other peers.
+File Integrity Check: Implement a checksum mechanism to verify the integrity of files during transfer.
+
+
+Grading Criteria:
+Functionality (45 Points):
+Correct implementation of file sharing, file lookup, and file transfer.
+Proper peer registration and periodic updates to the file list.
+Add-Ons (5 Points):
+Tracker server (4 points).
+File integrity check (1 point).
+Error Handling (20 Points):
+Proper handling of missing packets and retransmissions.
+Reliable file transfer with chunk acknowledgments.
+Network Communication (20 Points):
+Correct implementation of socket communication between peers.
+Efficient file discovery and querying mechanism.
+Documentation (10 Points):
+Clear and concise documentation of the system’s design and functionality.
+Description of the file transfer protocol and how peers interact.
+Assignment 4: P2P NFS
+Due Thursday by 7pm Points 100 Submitting a text entry box or a website url
+Programming Assignment: Implementing a Simple Peer-to-Peer (P2P) Networked File System
+Objective:
+In this assignment, you will design and implement a simple peer-to-peer (P2P) file system. The goal is to understand the basics of distributed systems and networked file sharing by building a system where peers can share, request, and transfer files directly with each other. The system will allow nodes (peers) to act as both servers and clients, offering and requesting files over a network.
+
+Learning Outcomes:
+By completing this assignment, you will:
+
+Gain hands-on experience with peer-to-peer file sharing.
+Understand the file transfer protocols used in distributed systems.
+Learn how to handle network communication using sockets.
+Understand file lookup and error recovery in a P2P file system.
+Assignment Overview:
+The assignment requires students to build a P2P system with the following features:
+
+File Sharing: Peers should be able to offer files to other peers and request files from other peers in the network.
+File Lookup: A mechanism for peers to find files offered by other peers.
+File Transfer: Once a file is located, peers should be able to transfer files over the network.
+Distributed Storage: Peers will maintain a local list of files they share, and this list will be used for file lookup by other peers.
+Basic Network Communication: Peers communicate via sockets (TCP or UDP), and each peer can request files from another peer using a simple protocol.
+Features to Implement:
+Peer Registration:
+Each peer in the system should register itself by advertising the list of files it is offering to share.
+File Request and Transfer:
+Peers should be able to request a file from another peer. The requested peer will send the file over the network.
+Simple P2P Protocol:
+The system will use a simple message protocol to facilitate communication between peers:
+File Offer: Peers will periodically advertise their list of available files.
+File Request: When a peer wants a file, it will request it from another peer, which will then send the file.
+System Components:
+1. Peer:
+
+Each peer in the system will be able to:
+Register its available files (offer files to other peers).
+Query other peers for available files.
+Transfer files to peers who have requested them.
+2. File Lookup:
+
+Each peer maintains a list of files it can share.
+Each file in the system will have a unique file name.
+Peers will communicate to search for files offered by other peers.
+3. File Transfer:
+
+When a peer requests a file, the server peer sends the file to the client peer over the network.
+Files will be transferred in chunks to handle large files and allow for error recovery.
+
+
+Packet Format:
+The communication between peers will be based on a simple packet format for file transfer and query.
+
+File Offer Message:
+Message Type (1 byte): O (Offer)
+Peer ID (4 bytes): Unique identifier of the peer offering the file.
+File Name (variable length): Name of the file being offered.
+File Request Message:
+Message Type (1 byte): R (Request)
+File Name (variable length): The name of the file the client is requesting.
+File Transfer Message:
+Message Type (1 byte): T (Transfer)
+File Data (variable length): Chunk of the file being transferred.
+Acknowledgment Message:
+Message Type (1 byte): A (Ack)
+Peer ID (4 bytes): The peer who has successfully received the file chunk.
+
+
+Protocol Outline:
+Peer Registration:
+A peer sends a File Offer Message to the network to advertise the files it is sharing.
+The Peer ID should be a unique identifier for each peer (e.g., a randomly generated UUID or an IP address and port combination).
+File Lookup:
+A peer sends a File Request Message to request a file from another peer.
+If the requested file is available, the server peer will respond with the file in chunks.
+File Transfer:
+The file is transferred in chunks (e.g., 1024 bytes per chunk).
+The client should acknowledge each chunk using an Acknowledgment Message.
+Error Handling:
+If a chunk is not acknowledged within a timeout period, the peer should retransmit the chunk.
+
+
+Design Specifications:
+1. Peer Operations:
+
+Start a Peer: When the peer starts, it should:
+Register itself on the network by advertising its available files.
+Periodically update its file list for other peers to query.
+Offer a File: A peer should periodically broadcast its available files to other peers.
+Request a File: When a peer wants a file, it should send a request to other peers for the specific file.
+Transfer a File: Once a peer has been requested for a file, it should send the file in chunks.
+Receive a File: A peer requesting a file will receive it in chunks and save it locally.
+Error Recovery: Implement basic error handling such as retransmissions in case of lost file chunks.
+2. Network Communication:
+
+Sockets: Peers will use TCP sockets to establish connections and transfer data reliably.
+Broadcasting and Searching: Peers can periodically broadcast their available files to all known peers or use a central registry (like a basic tracker) to query other peers.
+3. File Management:
+
+Peers should maintain a local directory (file system) of files they offer.
+Each peer should check if a file exists before responding to a request.
+4. Peer-to-Peer Network Discovery:
+
+Peer discovery: A peer sends a File Offer Message to the network.
+As an add-on, you will implement a central registry that helps peers find other peers in the network.
+
+
+Implementation Steps:
+Step 1: Peer Setup and File Management
+
+Create the peer.py file that represents a peer in the network.
+Implement methods for:
+Registering the peer and its files.
+Sending and receiving file offer messages.
+Step 2: File Request and Transfer
+
+Implement the logic for handling file requests:
+Send file chunks upon request.
+Receive file chunks and save the requested file.
+Step 3: File Lookup and Error Handling
+
+Implement a lookup function to search for available files on other peers.
+Implement error handling and retransmissions for lost or missing chunks.
+Step 4: Testing and Debugging
+
+Test the system by running multiple peers in separate terminals and transferring files between them.
+Verify that file transfers complete successfully and that file lookup is functioning as expected.
+
+
+Add-Ons (once main functionality is complete):
+Tracker Server: Implement a central tracker server to help peers locate other peers.
+File Integrity Check: Implement a checksum mechanism to verify the integrity of files during transfer.
+
+
+Grading Criteria:
+Functionality (45 Points):
+Correct implementation of file sharing, file lookup, and file transfer.
+Proper peer registration and periodic updates to the file list.
+Add-Ons (5 Points):
+Tracker server (4 points).
+File integrity check (1 point).
+Error Handling (20 Points):
+Proper handling of missing packets and retransmissions.
+Reliable file transfer with chunk acknowledgments.
+Network Communication (20 Points):
+Correct implementation of socket communication between peers.
+Efficient file discovery and querying mechanism.
+Documentation (10 Points):
+Clear and concise documentation of the system’s design and functionality.
+Description of the file transfer protocol and how peers interact.
+Assignment 4: P2P NFS
+Due Thursday by 7pm Points 100 Submitting a text entry box or a website url
+Programming Assignment: Implementing a Simple Peer-to-Peer (P2P) Networked File System
+Objective:
+In this assignment, you will design and implement a simple peer-to-peer (P2P) file system. The goal is to understand the basics of distributed systems and networked file sharing by building a system where peers can share, request, and transfer files directly with each other. The system will allow nodes (peers) to act as both servers and clients, offering and requesting files over a network.
+
+Learning Outcomes:
+By completing this assignment, you will:
+
+Gain hands-on experience with peer-to-peer file sharing.
+Understand the file transfer protocols used in distributed systems.
+Learn how to handle network communication using sockets.
+Understand file lookup and error recovery in a P2P file system.
+Assignment Overview:
+The assignment requires students to build a P2P system with the following features:
+
+File Sharing: Peers should be able to offer files to other peers and request files from other peers in the network.
+File Lookup: A mechanism for peers to find files offered by other peers.
+File Transfer: Once a file is located, peers should be able to transfer files over the network.
+Distributed Storage: Peers will maintain a local list of files they share, and this list will be used for file lookup by other peers.
+Basic Network Communication: Peers communicate via sockets (TCP or UDP), and each peer can request files from another peer using a simple protocol.
+Features to Implement:
+Peer Registration:
+Each peer in the system should register itself by advertising the list of files it is offering to share.
+File Request and Transfer:
+Peers should be able to request a file from another peer. The requested peer will send the file over the network.
+Simple P2P Protocol:
+The system will use a simple message protocol to facilitate communication between peers:
+File Offer: Peers will periodically advertise their list of available files.
+File Request: When a peer wants a file, it will request it from another peer, which will then send the file.
+System Components:
+1. Peer:
+
+Each peer in the system will be able to:
+Register its available files (offer files to other peers).
+Query other peers for available files.
+Transfer files to peers who have requested them.
+2. File Lookup:
+
+Each peer maintains a list of files it can share.
+Each file in the system will have a unique file name.
+Peers will communicate to search for files offered by other peers.
+3. File Transfer:
+
+When a peer requests a file, the server peer sends the file to the client peer over the network.
+Files will be transferred in chunks to handle large files and allow for error recovery.
+
+
+Packet Format:
+The communication between peers will be based on a simple packet format for file transfer and query.
+
+File Offer Message:
+Message Type (1 byte): O (Offer)
+Peer ID (4 bytes): Unique identifier of the peer offering the file.
+File Name (variable length): Name of the file being offered.
+File Request Message:
+Message Type (1 byte): R (Request)
+File Name (variable length): The name of the file the client is requesting.
+File Transfer Message:
+Message Type (1 byte): T (Transfer)
+File Data (variable length): Chunk of the file being transferred.
+Acknowledgment Message:
+Message Type (1 byte): A (Ack)
+Peer ID (4 bytes): The peer who has successfully received the file chunk.
+
+
+Protocol Outline:
+Peer Registration:
+A peer sends a File Offer Message to the network to advertise the files it is sharing.
+The Peer ID should be a unique identifier for each peer (e.g., a randomly generated UUID or an IP address and port combination).
+File Lookup:
+A peer sends a File Request Message to request a file from another peer.
+If the requested file is available, the server peer will respond with the file in chunks.
+File Transfer:
+The file is transferred in chunks (e.g., 1024 bytes per chunk).
+The client should acknowledge each chunk using an Acknowledgment Message.
+Error Handling:
+If a chunk is not acknowledged within a timeout period, the peer should retransmit the chunk.
+
+
+Design Specifications:
+1. Peer Operations:
+
+Start a Peer: When the peer starts, it should:
+Register itself on the network by advertising its available files.
+Periodically update its file list for other peers to query.
+Offer a File: A peer should periodically broadcast its available files to other peers.
+Request a File: When a peer wants a file, it should send a request to other peers for the specific file.
+Transfer a File: Once a peer has been requested for a file, it should send the file in chunks.
+Receive a File: A peer requesting a file will receive it in chunks and save it locally.
+Error Recovery: Implement basic error handling such as retransmissions in case of lost file chunks.
+2. Network Communication:
+
+Sockets: Peers will use TCP sockets to establish connections and transfer data reliably.
+Broadcasting and Searching: Peers can periodically broadcast their available files to all known peers or use a central registry (like a basic tracker) to query other peers.
+3. File Management:
+
+Peers should maintain a local directory (file system) of files they offer.
+Each peer should check if a file exists before responding to a request.
+4. Peer-to-Peer Network Discovery:
+
+Peer discovery: A peer sends a File Offer Message to the network.
+As an add-on, you will implement a central registry that helps peers find other peers in the network.
+
+
+Implementation Steps:
+Step 1: Peer Setup and File Management
+
+Create the peer.py file that represents a peer in the network.
+Implement methods for:
+Registering the peer and its files.
+Sending and receiving file offer messages.
+Step 2: File Request and Transfer
+
+Implement the logic for handling file requests:
+Send file chunks upon request.
+Receive file chunks and save the requested file.
+Step 3: File Lookup and Error Handling
+
+Implement a lookup function to search for available files on other peers.
+Implement error handling and retransmissions for lost or missing chunks.
+Step 4: Testing and Debugging
+
+Test the system by running multiple peers in separate terminals and transferring files between them.
+Verify that file transfers complete successfully and that file lookup is functioning as expected.
+
+
+Add-Ons (once main functionality is complete):
+Tracker Server: Implement a central tracker server to help peers locate other peers.
+File Integrity Check: Implement a checksum mechanism to verify the integrity of files during transfer.
+
+
+Grading Criteria:
+Functionality (45 Points):
+Correct implementation of file sharing, file lookup, and file transfer.
+Proper peer registration and periodic updates to the file list.
+Add-Ons (5 Points):
+Tracker server (4 points).
+File integrity check (1 point).
+Error Handling (20 Points):
+Proper handling of missing packets and retransmissions.
+Reliable file transfer with chunk acknowledgments.
+Network Communication (20 Points):
+Correct implementation of socket communication between peers.
+Efficient file discovery and querying mechanism.
+Documentation (10 Points):
+Clear and concise documentation of the system’s design and functionality.
+Description of the file transfer protocol and how peers interact.
+Assignment 4: P2P NFS
+Due Thursday by 7pm Points 100 Submitting a text entry box or a website url
+Programming Assignment: Implementing a Simple Peer-to-Peer (P2P) Networked File System
+Objective:
+In this assignment, you will design and implement a simple peer-to-peer (P2P) file system. The goal is to understand the basics of distributed systems and networked file sharing by building a system where peers can share, request, and transfer files directly with each other. The system will allow nodes (peers) to act as both servers and clients, offering and requesting files over a network.
+
+Learning Outcomes:
+By completing this assignment, you will:
+
+Gain hands-on experience with peer-to-peer file sharing.
+Understand the file transfer protocols used in distributed systems.
+Learn how to handle network communication using sockets.
+Understand file lookup and error recovery in a P2P file system.
+Assignment Overview:
+The assignment requires students to build a P2P system with the following features:
+
+File Sharing: Peers should be able to offer files to other peers and request files from other peers in the network.
+File Lookup: A mechanism for peers to find files offered by other peers.
+File Transfer: Once a file is located, peers should be able to transfer files over the network.
+Distributed Storage: Peers will maintain a local list of files they share, and this list will be used for file lookup by other peers.
+Basic Network Communication: Peers communicate via sockets (TCP or UDP), and each peer can request files from another peer using a simple protocol.
+Features to Implement:
+Peer Registration:
+Each peer in the system should register itself by advertising the list of files it is offering to share.
+File Request and Transfer:
+Peers should be able to request a file from another peer. The requested peer will send the file over the network.
+Simple P2P Protocol:
+The system will use a simple message protocol to facilitate communication between peers:
+File Offer: Peers will periodically advertise their list of available files.
+File Request: When a peer wants a file, it will request it from another peer, which will then send the file.
+System Components:
+1. Peer:
+
+Each peer in the system will be able to:
+Register its available files (offer files to other peers).
+Query other peers for available files.
+Transfer files to peers who have requested them.
+2. File Lookup:
+
+Each peer maintains a list of files it can share.
+Each file in the system will have a unique file name.
+Peers will communicate to search for files offered by other peers.
+3. File Transfer:
+
+When a peer requests a file, the server peer sends the file to the client peer over the network.
+Files will be transferred in chunks to handle large files and allow for error recovery.
+
+
+Packet Format:
+The communication between peers will be based on a simple packet format for file transfer and query.
+
+File Offer Message:
+Message Type (1 byte): O (Offer)
+Peer ID (4 bytes): Unique identifier of the peer offering the file.
+File Name (variable length): Name of the file being offered.
+File Request Message:
+Message Type (1 byte): R (Request)
+File Name (variable length): The name of the file the client is requesting.
+File Transfer Message:
+Message Type (1 byte): T (Transfer)
+File Data (variable length): Chunk of the file being transferred.
+Acknowledgment Message:
+Message Type (1 byte): A (Ack)
+Peer ID (4 bytes): The peer who has successfully received the file chunk.
+
+
+Protocol Outline:
+Peer Registration:
+A peer sends a File Offer Message to the network to advertise the files it is sharing.
+The Peer ID should be a unique identifier for each peer (e.g., a randomly generated UUID or an IP address and port combination).
+File Lookup:
+A peer sends a File Request Message to request a file from another peer.
+If the requested file is available, the server peer will respond with the file in chunks.
+File Transfer:
+The file is transferred in chunks (e.g., 1024 bytes per chunk).
+The client should acknowledge each chunk using an Acknowledgment Message.
+Error Handling:
+If a chunk is not acknowledged within a timeout period, the peer should retransmit the chunk.
+
+
+Design Specifications:
+1. Peer Operations:
+
+Start a Peer: When the peer starts, it should:
+Register itself on the network by advertising its available files.
+Periodically update its file list for other peers to query.
+Offer a File: A peer should periodically broadcast its available files to other peers.
+Request a File: When a peer wants a file, it should send a request to other peers for the specific file.
+Transfer a File: Once a peer has been requested for a file, it should send the file in chunks.
+Receive a File: A peer requesting a file will receive it in chunks and save it locally.
+Error Recovery: Implement basic error handling such as retransmissions in case of lost file chunks.
+2. Network Communication:
+
+Sockets: Peers will use TCP sockets to establish connections and transfer data reliably.
+Broadcasting and Searching: Peers can periodically broadcast their available files to all known peers or use a central registry (like a basic tracker) to query other peers.
+3. File Management:
+
+Peers should maintain a local directory (file system) of files they offer.
+Each peer should check if a file exists before responding to a request.
+4. Peer-to-Peer Network Discovery:
+
+Peer discovery: A peer sends a File Offer Message to the network.
+As an add-on, you will implement a central registry that helps peers find other peers in the network.
+
+
+Implementation Steps:
+Step 1: Peer Setup and File Management
+
+Create the peer.py file that represents a peer in the network.
+Implement methods for:
+Registering the peer and its files.
+Sending and receiving file offer messages.
+Step 2: File Request and Transfer
+
+Implement the logic for handling file requests:
+Send file chunks upon request.
+Receive file chunks and save the requested file.
+Step 3: File Lookup and Error Handling
+
+Implement a lookup function to search for available files on other peers.
+Implement error handling and retransmissions for lost or missing chunks.
+Step 4: Testing and Debugging
+
+Test the system by running multiple peers in separate terminals and transferring files between them.
+Verify that file transfers complete successfully and that file lookup is functioning as expected.
+
+
+Add-Ons (once main functionality is complete):
+Tracker Server: Implement a central tracker server to help peers locate other peers.
+File Integrity Check: Implement a checksum mechanism to verify the integrity of files during transfer.
+
+
+Grading Criteria:
+Functionality (45 Points):
+Correct implementation of file sharing, file lookup, and file transfer.
+Proper peer registration and periodic updates to the file list.
+Add-Ons (5 Points):
+Tracker server (4 points).
+File integrity check (1 point).
+Error Handling (20 Points):
+Proper handling of missing packets and retransmissions.
+Reliable file transfer with chunk acknowledgments.
+Network Communication (20 Points):
+Correct implementation of socket communication between peers.
+Efficient file discovery and querying mechanism.
+Documentation (10 Points):
+Clear and concise documentation of the system’s design and functionality.
+Description of the file transfer protocol and how peers interact.
