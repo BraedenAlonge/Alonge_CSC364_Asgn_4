@@ -1,0 +1,29 @@
+Braeden Alonge
+CSC 364
+Dev Sisodia
+
+-- How To Execute --
+
+1. Create different terminals on your local machine.
+2. There are four directories containing different files of variable length. This allows for the creation
+    of four unique peers. To add more peers, add more Transfer-File directories, or assign multiple peers to a
+    directory.
+3. Before running the program, ensure that there are no "received_tfX.txt files. If there are, execute the following
+    command using the program I created: "python ./remove-received-files.py"
+4. First start the tracker server:
+% python ./tracker.py
+
+Note that the tracker server is running on port 9000.
+
+5. Now, on each separate terminal, execute the peers. Here is an example run for four peers:
+Terminal 1:
+% python .\peer.py 1111 8001 .\Transfer-Files-Peer-1\ localhost 9000
+Terminal 2:
+% python .\peer.py 1121 8002 .\Transfer-Files-Peer-2\ localhost 9000
+Terminal 3:
+% python .\peer.py 1131 8003 .\Transfer-Files-Peer-3\ localhost 9000
+Terminal 4:
+% python .\peer.py 1141 8004 .\Transfer-Files-Peer-4\ localhost 9000
+
+6. Once all files are transferred, safely exit by Keyboard Interrupt (Control+C on Windows)
+7. The list of received files will display for each peer.
