@@ -2,6 +2,52 @@ Braeden Alonge
 CSC 364
 Dev Sisodia
 
+-- System Design --
+1. Tracker Server
+    Helps peers locate one another. It maintains a mapping of peer IDs to their IP addresses and their ports.
+    Functionality:
+        JOIN: Peers register with the tracker using the JOIN command.
+        QUERY: Peers can request a list of active peers using the QUERY command.
+        LEAVE: When a peer exits, it notifies the tracker with the LEAVE command.
+    Note: This is all automated internally
+
+2. Peer
+    Each peer maintains a local file directory of files that it offers. On startup, each peer registers with the
+    tracker server by sending its Peer ID, IP address, and port. Every 20 seconds, peers advertise their files to
+    all peers connected to the tracker server. When a peer receives an offer for a file it doesn't have, it sends
+    a request. The offering peer then sends the file in chunks and waits for an ack. A checksum is implemented to
+    ensure the files transfer properly. The peer server runs in a separate thread and handles multiple connections.
+    A lock is used to protect shared resources (ie. the list of available files) when necessary.Each received file
+     is saved under a fixed name (e.g., "received_" + <original_filename>). Once a file is received, its original
+     filename is added to the available files list so that subsequent offers for that file are ignored.
+
+-- File Transfer Protocol --
+Offer Message (O):
+Header: 1 byte (O)
+Peer ID: 4 bytes (unique identifier for the peer)
+File Name: Variable length (the name of the file being offered)
+
+Request Message (R):
+Header: 1 byte (R)
+File Name: Variable length (the file the peer is requesting)
+
+Transfer Message (T):
+Header: 1 byte (T)
+File Data: Variable length (a chunk of the file, typically 1024 bytes)
+
+Acknowledgment Message (A):
+Header: 1 byte (A)
+Peer ID: 4 bytes (identifier of the peer that received the chunk)
+
+Checksum Message (C):
+Header: 1 byte (C)
+Checksum: The computed checksum (using a simple hash algorithm) as a string followed by a newline
+
+Error Recovery:
+If the sender does not receive an acknowledgment within a timeout period, it retransmits the file chunk.
+Also, incorrect message types are faulted.
+
+
 -- How To Execute --
 
 1. Create different terminals on your local machine.

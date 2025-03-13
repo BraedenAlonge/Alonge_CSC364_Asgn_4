@@ -108,8 +108,8 @@ class Peer:
                 except Exception as e:
                     print(f"Error advertising file '{filename}' to {(other_host, other_port)}: {e}")
                 # Print and send to know peers
-        # Readvertise every 15 secs
-        timer = threading.Timer(15, self.advertise_files)
+        # Readvertise every 20 secs
+        timer = threading.Timer(20, self.advertise_files)
         timer.daemon = True
         timer.start()
     def handle_incoming_connection(self, conn):
@@ -322,7 +322,7 @@ if __name__ == "__main__":
     server_thread.daemon = True
     server_thread.start()
 
-    # advertise files periodically (every 15 seconds)
+    # advertise files periodically (every 20 seconds)
     peer.advertise_files()
 
     try:
